@@ -59,19 +59,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ShipCode\FollowShip.cs" />
-    <Compile Include="Assets\Scripts\ShipCode\Laserscript.cs" />
-    <Compile Include="Assets\Scripts\ShipCode\ShipMovement.cs" />
-    <Compile Include="Assets\Scripts\ShipCode\ShipShoot.cs" />
+    <Compile Include="Assets\Scripts\LaserScript.cs" />
+    <Compile Include="Assets\Scripts\LaserScriptVirus.cs" />
+    <Compile Include="Assets\Scripts\ShipLogic.cs" />
     <Compile Include="Assets\Scripts\UIScripts\ButtonScript.cs" />
-    <Compile Include="Assets\Scripts\UIScripts\DestroyAudioSource.cs" />
     <Compile Include="Assets\Scripts\UIScripts\ExitGame.cs" />
     <Compile Include="Assets\Scripts\UIScripts\LoadSceneOnClick.cs" />
-    <Compile Include="Assets\Scripts\VirusCode\ShootHard.cs" />
-    <Compile Include="Assets\Scripts\VirusCode\ShootSoft.cs" />
-    <Compile Include="Assets\Scripts\VirusCode\Virusdestroy.cs" />
-    <Compile Include="Assets\Scripts\VirusCode\VirusShoot.cs" />
-    <Compile Include="Assets\Scripts\VirusCode\Virusspawn.cs" />
+    <Compile Include="Assets\Scripts\VirusLogic.cs" />
+    <Compile Include="Assets\Scripts\VirusSpawn.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/Ned Sheynji/Desktop/HACK/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
