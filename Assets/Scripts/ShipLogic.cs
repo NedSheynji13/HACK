@@ -7,7 +7,7 @@ using UnityEngine;
 public interface ITarget
 {}
 
-public class ShipLogic : NetworkBehaviour , ITarget
+public class ShipLogic : NetworkBehaviour, ITarget
 {
     #region Variables used for movement
     private Rigidbody physx;
@@ -22,17 +22,16 @@ public class ShipLogic : NetworkBehaviour , ITarget
 
     void Start()
     {
-        transform.position = new Vector3(100, 0.5f, 100);
-        transform.rotation = Quaternion.identity;
+        respawn();
         physx = GetComponent<Rigidbody>();
         rotCenter = transform.GetChild(0).gameObject;
     }
-	void FixedUpdate ()
+    void FixedUpdate()
     {
         //Shooting
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
         {
-            rotCenter.transform.LookAt(hit.point.x, );
+            rotCenter.transform.LookAt(hit.point);
             cursor.transform.position = hit.point + (Vector3.up * 5);
         }
     }
@@ -56,7 +55,7 @@ public class ShipLogic : NetworkBehaviour , ITarget
     [Command]
     private void CmdShoot()
     {
-        GameObject laserprefab = Instantiate(laser, rotCenter.transform.position + (rotCenter.transform.rotation * transform.forward * 3), rotCenter.transform.rotation);
+        GameObject laserprefab = Instantiate(laser, rotCenter.transform.position + (Quaternion.Euler(0, rotCenter.transform.rotation.eulerAngles.y, 0) * transform.forward * 10), Quaternion.Euler(0, rotCenter.transform.rotation.eulerAngles.y, 0));
         laserprefab.GetComponent<LaserScript>().Init();
         NetworkServer.Spawn(laserprefab);
         timer = 0;
@@ -66,6 +65,19 @@ public class ShipLogic : NetworkBehaviour , ITarget
     {
         //Game Over Bitches
         if (other.GetComponent<Collider>().isTrigger && other.GetComponent<ITarget>() == null)
-            Destroy(this.gameObject);
+            RpcRespawn();
+    }
+
+    public void respawn()
+    {
+        transform.position = new Vector3(100, 0.5f, 100);
+        transform.rotation = Quaternion.identity;
+    }
+
+    [ClientRpc]
+    void RpcRespawn()
+    {
+        if (isLocalPlayer)
+            respawn();
     }
 }

@@ -6,12 +6,12 @@ public class VirusLogic : MonoBehaviour
 {
     #region Variables
     public GameObject laser;
-    private bool shoot = false;
+    private float shoot = 0;
     private GameObject rotCenter;
     private Transform target;
     #endregion
-
-    void Start ()
+	
+	void Update ()
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, 200);
         for (int i = 0; i < cols.Length; i++)
@@ -20,21 +20,16 @@ public class VirusLogic : MonoBehaviour
                 target = cols[i].gameObject.transform;
         }
         rotCenter = transform.GetChild(0).gameObject;
-    }
-	
-	void Update ()
-    {
+        shoot += Time.deltaTime;
         rotCenter.transform.LookAt(target);
-        if (!shoot)
-            StartCoroutine(Shoot());
+        if (shoot >= 1)
+            Shoot();
     }
 
-    private IEnumerator Shoot()
+    private void Shoot()
     {
         Instantiate(laser, rotCenter.transform.position + (rotCenter.transform.rotation * transform.forward * 3), rotCenter.transform.rotation);
-        shoot = true;
-        yield return new WaitForSeconds(1f);
-        shoot = false;
+        shoot = 0;
     }
 
     private void OnTriggerEnter(Collider other)

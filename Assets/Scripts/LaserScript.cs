@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserScript : MonoBehaviour
+public class LaserScript : MonoBehaviour, ILaser
 {
     private float timer;
 
     public void Init()
     {
-        GetComponent<Rigidbody>().velocity = transform.forward * 40;
+        GetComponent<Rigidbody>().velocity = transform.forward * 50;
     }
     private void Update()
     {
@@ -19,6 +19,9 @@ public class LaserScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(this.gameObject);
+        if (other.GetComponent<ILaser>() == null)
+            Destroy(this.gameObject);
     }
 }
+
+public interface ILaser { }
